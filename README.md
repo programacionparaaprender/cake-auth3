@@ -31,6 +31,21 @@ In case you want to use a custom app dir name (e.g. `/myapp/`):
 composer create-project --prefer-dist "cakephp/app:^3.8" myapp
 ```
 
+### migraciones
+cd bin
+./cake bake migration_snapshot Initial
+./cake bake all users
+
+### error
+ Action required!
+
+     The CakePHP plugin installer v1.3+ no longer requires the
+     "post-autoload-dump" hook. Please update your app's composer.json
+     file and remove usage of
+     Cake\Composer\Installer\PluginInstaller::postAutoloadDump
+
+
+
 You can now either use your machine's webserver to view the default home page, or start
 up the built-in webserver with:
 
