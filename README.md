@@ -30,11 +30,22 @@ In case you want to use a custom app dir name (e.g. `/myapp/`):
 ```bash
 composer create-project --prefer-dist "cakephp/app:^3.8" myapp
 ```
+### curso
+https://www.udemy.com/course/cakephp-3-tutorial-with-user-authentication-and-admin/learn/lecture/7289684#overview
+
+### paginas
+https://bootswatch.com/yeti/#forms
+
 
 ### migraciones
+app_local.php colocar la data de base de datos
 cd bin
 ./cake bake migration_snapshot Initial
 ./cake bake all users
+
+### servidor cake
+cd bin
+./cake server
 
 ### error
  Action required!
