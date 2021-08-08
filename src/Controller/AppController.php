@@ -45,11 +45,61 @@ class AppController extends Controller
             'enableBeforeRedirect' => false,
         ]);
         $this->loadComponent('Flash');
-
+        $this->loadComponent('Auth', [
+            'authorize'=>['Controller'],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'loginRedirect'=>[
+                'controller' => 'Users',
+                'action' => 'home'
+            ],
+            'authError' => 'Did you really think you are allowed to see that?',
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'email', 
+                        'password' => 'password'
+                    ]
+                ]
+            ],
+            'logoutRedirect'=>[
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'storage' => 'Session'
+        ]);
+        /* $this->loadComponent('Auth', [
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login',
+                'plugin' => 'Users'
+            ],
+            'authError' => 'Did you really think you are allowed to see that?',
+            'authenticate' => [
+                'Form' => [
+                    'fields' => ['username' => 'email', 'password' => 'password']
+                ]
+            ],
+            'storage' => 'Session'
+        ]); */
         /*
          * Enable the following component for recommended CakePHP security settings.
          * see https://book.cakephp.org/3/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
     }
+
+    public function beforeRender(Event $event){
+        if(!array_key_exists('_serialize', $this->viewVars) &&
+        in_array($this->response->type(), ['appication/json', 'application/xml'])){
+            $this->set('_serialize', true);
+        }        
+    }
+
+    public function isAuthorized($user){
+        return true;
+    }
+
 }

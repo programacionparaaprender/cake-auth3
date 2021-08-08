@@ -1,29 +1,19 @@
 <?php
 namespace App\Controller;
-
 use App\Controller\AppController;
-
-/**
- * Users Controller
- *
- * @property \App\Model\Table\UsersTable $Users
- *
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
- */
-class UsersController extends AppController
-{
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null
-     */
-    public function index()
-    {
+class UsersController extends AppController{
+    public function index(){
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
     }
+  /* public function beforeFilter(Event $event){
+        $this->Auth->allow(['signup', 'forgotPassword']);
+    } */
 
+    public function forgotPassword(){
+
+    }
     /**
      * View method
      *
@@ -59,10 +49,50 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
     }
-
     public function login()
     {
+        //login
         $user = $this->Users->newEntity();
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            if($user){
+                $this->Auth->setUser($user);
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            else{
+                $this->Flash->error(__('The user could not be saved. Please, try again.'),['key'=>'auth']);
+            }
+        }
+        $this->set(compact('user'));
+        
+    }
+
+    public function login2()
+    {
+        //login
+        if($this->request->is('post')){
+
+            if($this->Auth->user('id')){
+                $this->warning(__('You are already logged'));
+                return $this->redirect(['controller'=>'Users','action'=>'index']);
+            }
+            else
+            {
+                
+                $user = $this->Auth->identity();
+                if($user){
+                    $this->Auth->setUser();
+                    $this->success(__('Login Successful'));
+                    //redirect
+                    return $this->redirect(['controller'=>'Users','action'=>'index']);
+                }
+                $this->Flash->error(__('Sorry the login was not successful'));
+            
+            }
+        }
+        $this->set(compact('user'));
+        $this->set('_serialize',['user']);
+        /* $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
@@ -72,7 +102,7 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('user'));
+        $this->set(compact('user')); */
     }
 
     public function signup()
@@ -88,6 +118,7 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
+        $this->set('_serialize',['user']);
     }
 
     /**

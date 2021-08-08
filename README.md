@@ -36,6 +36,11 @@ https://www.udemy.com/course/cakephp-3-tutorial-with-user-authentication-and-adm
 ### paginas
 https://bootswatch.com/yeti/#forms
 
+### autenticación
+https://book.cakephp.org/3/en/controllers/components/authentication.html
+https://www.youtube.com/watch?v=pTiby1mb17A
+11:51
+
 
 ### migraciones
 app_local.php colocar la data de base de datos
